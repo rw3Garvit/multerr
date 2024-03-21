@@ -1,18 +1,20 @@
 const { imageService } = require("../services");
 const path = require("path");
 const fs = require("fs");
+const uploadImage = require('../middleware/cloudinary')
 
 const addImage = async (req, res) => {
   console.log(req.body);
   console.log(req.body.firstName);
 
   const file = req.file;
+ 
 
-  const dir = path.join(__dirname, "../public/images");
-  console.log(dir);
+  //upload cloudinary
+  let result = await uploadImage(req.file.path)
 
   const body = {
-    imageName: req.file.originalname,
+    imageName: result.secure_url,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
   };
